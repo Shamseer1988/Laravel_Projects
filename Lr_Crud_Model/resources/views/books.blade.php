@@ -2,7 +2,7 @@
 @section('title','Home')
 
 @section('content')
-    <div class="container mt-5">
+    <div class="mt-5">
 
         @if (session()->has('status'))
                 {!!session('status')!!}
@@ -23,6 +23,7 @@
         <th scope="col">Publisher</th>
         <th scope="col">Price</th>
         <th scope="col">Status</th>
+        <th scope="col">DeleteStatus</th>
         <th scope="col">Action</th>
         </tr>
     </thead>
@@ -36,9 +37,13 @@
         <td>{{$books->book_publisher}}</td>
         <td>{{$books->book_price}}</td>
         <td>{{$books->book_status_Text}}</td>
+        <td>@if($books->trashed()) Trashed @else Active @endif</td>
+
         <td><a href="{{Route('book.detailes',encrypt($books->book_id))}}" class="btn btn-success">View</a>
         <a href="{{Route('book.edit',encrypt($books->book_id))}}" class="btn btn-warning">Edit</a>
-        <a href="{{Route('book.delete',encrypt($books->book_id))}}" class="btn btn-danger">Delete</a></td>
+        <a href="{{Route('book.delete',encrypt($books->book_id))}}" class="btn btn-danger">Delete</a>
+        <a href="{{Route('book.force.delete',encrypt($books->book_id))}}" class="btn btn-warning">Force Del</a>
+        @if($books->trashed())<a href="{{Route('book.activate',encrypt($books->book_id))}}" class="btn btn-primary">Activate</a>@endif</td>
         </tr>
         @endforeach
 

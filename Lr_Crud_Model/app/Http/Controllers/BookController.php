@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\book;
+use Illuminate\Http\Request;
+
 
 class BookController extends Controller
 {
 
     //Indext
     public function show(){
-        $books = book::all();
+        $books = book::withTrashed()->latest()->limit(50)->get();
         // $books = book::active()->get();
         // $books = book::where('book_name' , 'Avatar')->first();
         // $books = book::where('book_id' ,'=' ,'2')->first();
@@ -34,6 +35,7 @@ class BookController extends Controller
         'book_genre' => request('genre'),
         'book_publisher' => request('publisher'),
         'book_price' => request('price'),
+        'book_status' => request('status'),
         ]);
 
         // $books = new book;
@@ -55,9 +57,16 @@ class BookController extends Controller
 
     // Delete Book
     public function delete($bookId){
-        $books = book::find(decrypt($bookId));
-        $books->delete();
+        book::find(decrypt($bookId))->delete();
+        // book::destroy(decrypt($bookId));
         return redirect(Route('show'))->with('status' , 'Successfully Deleted');
+    }
+
+     // Force Delete Book
+    public function forceDelete($bookId){
+        book::find(decrypt($bookId))->forceDelete();
+
+        return redirect(Route('show'))->with('status' , 'Permenently Deleted');
     }
 
 
@@ -90,6 +99,19 @@ class BookController extends Controller
                 Book Data Updated Successfully
                 <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                 </div>";
+        return redirect(Route('show'))->with('status' , $message);
+
+    }
+
+    // Activate Trashed Books
+    public function activate($bookId){
+        book::withTrashed()->find(decrypt($bookId))->restore();
+
+        $message = "<div class='col-sm-10 offset-1 alert alert-success alert-dismissible fade show' role='alert'>
+                Book Data  Successfully Restored from Trash Bin
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                </div>";
+
         return redirect(Route('show'))->with('status' , $message);
 
     }

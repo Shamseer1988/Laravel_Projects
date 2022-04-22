@@ -28,6 +28,14 @@
             <label for="price" class="form-label">Book Price</label>
             <input type="text" class="form-control" id="price" name="price" >
         </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Book Status</label>
+            <select class="form-control" name="status">
+                <option value="1">Published</option>
+                <option value="0">Pending</option>
+            </select>
+
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
 </form>
     </div>

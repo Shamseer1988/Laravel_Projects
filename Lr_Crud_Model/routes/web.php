@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
 
 
 Route::get('/' ,[BookController::class ,'show'])->name('show');
@@ -19,3 +19,11 @@ Route::get('/view_book_detailes/{bookId}' ,[BookController::class ,'detailes'])-
 
 Route::get('/edit_book/{bookId}' ,[BookController::class ,'edit'])->name('book.edit');
 Route::post('/update_book' ,[BookController::class ,'update'])->name('book.update');
+
+
+Route::get('/activate_book/{bookId}' ,[BookController::class ,'activate'])->name('book.activate');
+
+Route::get('/force-delete_book/{bookId}' ,[BookController::class ,'forceDelete'])->name('book.force.delete');
+
+
+
