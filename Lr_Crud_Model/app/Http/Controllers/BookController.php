@@ -11,14 +11,15 @@ class BookController extends Controller
 
     //Indext
     public function show(){
-        $books = book::withTrashed()->latest()->limit(50)->get();
+        // $books = book::withTrashed()->latest()->limit(50)->get();
+        $book = book::sortable()->withTrashed()->latest()->paginate(10);
         // $books = book::active()->get();
         // $books = book::where('book_name' , 'Avatar')->first();
         // $books = book::where('book_id' ,'=' ,'2')->first();
         // $books = book::whereIn('book_id',['2','1'])->get();
         // $books = book::where('book_status',1)->get();
         // $books = book::find(2);
-        return view('books', compact('books'));
+        return view('books', compact('book'));
     }
 
     //Create form view

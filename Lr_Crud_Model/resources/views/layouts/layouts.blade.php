@@ -6,7 +6,44 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <title>@yield('title')</title>
+    <style>
+    a {
+        color: -webkit-link;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .page-item.active .page-link{
+        z-index: 3;
+        color: rgb(255, 255, 255) !important  ;
+        background-color: #99e706 !important;
+        border-color: #00ACD6 !important;
+        border-radius: 50%;
+        padding: 6px 12px;
+    }
+    .page-link{
+        z-index: 3;
+        color: #fafafa !important;
+        background-color: rgb(103, 0, 238);
+        border-color: #007bff;
+        border-radius: 50%;
+        padding: 6px 12px !important;
+    }
+    .page-item:first-child .page-link{
+        border-radius: 30% !important;
+    }
+    .page-item:last-child .page-link{
+        border-radius: 30% !important;
+    }
+    .pagination li{
+        padding: 3px;
+    }
+    .disabled .page-link{
+        color: #212529 !important;
+        opacity: 0.5 !important;
+    }
+</style>
 </head>
 <body>
     <div class="container-fluid">

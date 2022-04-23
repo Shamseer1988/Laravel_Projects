@@ -5,6 +5,7 @@ use App\Http\Controllers\BookController;
 
 
 Route::get('/' ,[BookController::class ,'show'])->name('show');
+//For pagination cutom Url
 
 
 Route::get('/create_book' ,[BookController::class ,'create'])->name('book.create');
