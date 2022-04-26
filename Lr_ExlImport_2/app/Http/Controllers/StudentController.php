@@ -20,23 +20,21 @@ class StudentController extends Controller
             $request->validate([
                 'file' => 'required|mimes:xlsx'
             ]);
-            try {
-            $file = $request->file('file');
-            Excel::import(new StudentImport, $file);
+
+            $file = $request->file('file')->store('import');
+
+            $import = new StudentImport;
+            $import->import($file);
+
+
+
+            if($import->failures()->isNotEmpty()){
+                return back()->withFailures($import->failures());
+            }
+
+            // Excel::import(new StudentImport, $file);
             return redirect()->back()->with('status','Student Data Imported Successfully');
-            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            return redirect()->back()->with('import_errors', $failures);
-
-            // foreach ($failures as $failure) {
-            //     $failure->row(); // row that went wrong
-            //     $failure->attribute(); // either heading key (if using heading row concern) or column index
-            //     $failure->errors(); // Actual error messages from Laravel validator
-            //     $failure->values(); // The values of the row that has failed.
-            // }
-}
-    }
-
+        }
 
 
 

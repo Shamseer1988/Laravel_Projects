@@ -2,13 +2,22 @@
 
 namespace App\Imports;
 
+use Throwable;
 use App\Models\Student;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Validators\Failure;
+use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class StudentImport implements ToModel, WithHeadingRow
+
+class StudentImport implements ToModel, WithHeadingRow,SkipsOnError, WithValidation,SkipsOnFailure
 {
+    use SkipsErrors,Importable,SkipsFailures;
     /**
     * @param array $row
     *
@@ -19,26 +28,31 @@ class StudentImport implements ToModel, WithHeadingRow
         return new Student([
             'stu_name' =>$row['stu_name'],
             'stu_mob' =>$row['stu_mob'],
-            'stu_email' =>$row['stu_email'],
+            'stu_email' =>$row['email'],
             'stu_status' =>$row['stu_status'],
 
         ]);
     }
+    // For Skipp Errors when importing
+    // public function onError(Throwable $error){
 
-    //     public function rules(): array
-    // {
-    //     return [
-    //         'stu_name' => 'required',
-    //          // Above is alias for as it always validates in batches
-    //         '*.stu_name' => 'required',
+    // }
+    // Import Validation Rules
+    public function rules(): array
+    {
+        return [
 
-    //         'stu_email' => 'required|email|unique:Student',
-    //          // Above is alias for as it always validates in batches
-    //         '*.stu_email' => 'required|email|unique:Student',
+            '*.email' =>  ['email' , 'unique:students,stu_email'],
+            '*.stu_name' =>  ['required']
+        ];
+    }
+    // public function onFailure(Failure ...$failure){
 
-
-    //     ];
     // }
 
+    // public function onFailure(Failure ...$failures)
+    // {
+    //     // Handle the failures how you'd like.
+    // }
 
 }
