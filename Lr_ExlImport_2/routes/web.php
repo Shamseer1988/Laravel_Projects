@@ -13,6 +13,12 @@ use App\Http\Controllers\StudentController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('welcome' ,function(){
+    return view('welcome');
+}
+
+);
 Route::get('/', [StudentController::class, 'show']);
 Route::post('file-import', [StudentController::class, 'fileImport'])->name('file-import');
 
